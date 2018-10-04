@@ -1,0 +1,25 @@
+Functionality tasks: 
+
+-Process the information entered on text fields whenever "Enter another activity" or "Generate path" button is pressed
+
+-"Enter another activity" will clear text fields and get ready to process more information
+
+-"Generate path" will take you to the display and generate the paths in descending order based on duration
+
+-"Restart" button will clear the list of activities
+
+-"Quit" will end the program 
+
+-"About" will open a text display with option to go back to main menu
+
+-"Help" will open a text display with option to go back to main menu
+
+-Error messages displayed for dependencies cycle
+
+-Error messages for empty text field
+
+-Error messages for dependencies on activities not previously entered
+
+-Error messages for clicking generate path with no activities entered
+
+-Incomplete activity when pressing generate path, possible error message
