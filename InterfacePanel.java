@@ -1,5 +1,3 @@
-package DreamTeam360;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -144,8 +142,7 @@ public class InterfacePanel extends JPanel
 		{
 			  //variables used to get user input and eventually enter the information as a node if input is correct
 		      JTextField field1, field2, field3;
-		      String fieldin1 = "", fieldin2 = "", fieldin3 = "";
-		      		      
+		      String fieldin1, fieldin2, fieldin3;
 		      ArrayList<String> dependencies = new ArrayList<String>();
 		      String name;
 		      int duration;
@@ -155,12 +152,12 @@ public class InterfacePanel extends JPanel
 		      field1 = (JTextField) panel.getComponent(1);
 		      field2 = (JTextField) panel.getComponent(3);
 		      field3 = (JTextField) panel.getComponent(5);
-		      
+
 		      //obtain user input
 		      fieldin1 = field1.getText();
 		      fieldin2 = field2.getText();
 		      fieldin3 = field3.getText();
-		      
+
 		      //if either the activity name or duration is empty, give out an error
 		      if(fieldin1.isEmpty() || fieldin2.isEmpty())
 		      {
@@ -191,9 +188,7 @@ public class InterfacePanel extends JPanel
 				  		error.setName("Error");
 				  		JPanel panel = new JPanel();
 					  	panel.setLayout(new FlowLayout());
-
 				 		JOptionPane.showMessageDialog(frame, "Please enter an integer for the duration", "Error", JOptionPane.INFORMATION_MESSAGE);
-
 						error.add(panel);
 						frame.add(error);
 					 	error.setSize(300,300);
@@ -249,21 +244,7 @@ public class InterfacePanel extends JPanel
 		    	  		//if no commas, check if the single dependency is valid
 		    	  		if(comma == false)
 		    	  		{
-		    	  			boolean validdep = checkDependencies(fieldin3);
-		    	  			if(validdep == false)
-		    	  			{
-		    	  				JFrame frame = new JFrame();
-		    	  				JOptionPane error = new JOptionPane();
-		    	  				error.setName("Error");
-		    	  				JPanel panel = new JPanel();
-		    	  				panel.setLayout(new FlowLayout());
-		    	  				JOptionPane.showMessageDialog(frame, "Please enter valid dependencies", "Error", JOptionPane.INFORMATION_MESSAGE);
-						  		error.add(panel);
-						  		frame.add(error);
-						  		error.setSize(300,300);
-						  		error.setVisible(true);
-						  		return;
-		    	  			}
+		    	  			dependencies.add(fieldin3);
 		    	  		}
 
 		    	  		//multiple dependencies
@@ -282,25 +263,6 @@ public class InterfacePanel extends JPanel
 		    	  			}
 		    	  			dependencies.add(fieldin3);
 
-		    	  			boolean validdep = false;
-		    	  			for(int i = 0; i < dependencies.size(); i++)
-		    	  			{
-		    	  				validdep = checkDependencies(dependencies.get(i));
-		    	  				if(validdep == false)
-		    	  				{
-		    	  					JFrame frame = new JFrame();
-		    	  					JOptionPane error = new JOptionPane();
-		    	  					error.setName("Error");
-		    	  					JPanel panel = new JPanel();
-		    	  					panel.setLayout(new FlowLayout());
-		    	  					JOptionPane.showMessageDialog(frame, "Please enter valid dependencies", "Error", JOptionPane.INFORMATION_MESSAGE);
-		    	  					error.add(panel);
-		    	  					frame.add(error);
-		    	  					error.setSize(300,300);
-		    	  					error.setVisible(true);
-		    	  					return;
-		    	  				}
-		    	  			}
 
 		    	  		}//end of multiple dependencies handle
 		    	  }//end of input is correctly formated
@@ -310,7 +272,6 @@ public class InterfacePanel extends JPanel
 		      		//if all input is correct, the activity is added to the nodelist
 		      		node = new Node(name, duration, dependencies);
 		      		nodelist.add(node);
-		      		
 		      		TextInput.addToArray(name, duration, fieldin3);
 
 
@@ -319,6 +280,7 @@ public class InterfacePanel extends JPanel
 		      field2.setText(null);
 		      field3.setText(null);
 
+
 		}
 	}//end of enter button listener
 
@@ -326,8 +288,23 @@ public class InterfacePanel extends JPanel
 	{
 		public void actionPerformed(ActionEvent event)
 		{
-			TextInput.sortArray();
-			TextInput.printArray();
+				boolean valid = checkDependencies(nodelist);
+				if(valid)
+				{
+					JFrame frame = new JFrame();
+					JOptionPane error = new JOptionPane();
+					error.setName("Error");
+					JPanel panel = new JPanel();
+					panel.setLayout(new FlowLayout());
+					JOptionPane.showMessageDialog(frame, printPath(), "Error", JOptionPane.INFORMATION_MESSAGE);
+					error.add(panel);
+					frame.add(error);
+					error.setSize(300,300);
+					error.setVisible(true);
+					return;
+				}
+				TextInput.sortArray();
+				TextInput.printArray();
 		}
 	}//end of generate button listener
 
@@ -350,7 +327,7 @@ public class InterfacePanel extends JPanel
 
 	//function returns true if the dependency sent was found in the nodelist
 	//in other words, the dependency must exist in the nodelist for it to be valid
-	public boolean checkDependencies(String dep)
+	public boolean checkIndividualDependency(String dep)
 	{
 		boolean result = false;
 		for(int j = 0; j < nodelist.size(); j++)
@@ -361,6 +338,71 @@ public class InterfacePanel extends JPanel
 			}
 		}
 		return result;
+	}
+
+	public boolean checkDependencies(ArrayList<Node> list)
+	{
+		boolean valid = true;
+		ArrayList<String> dep;
+
+		for(int i = 0; i < list.size(); i++)
+		{
+			dep = list.get(i).getDependencies();
+			for(int j = 0; j < dep.size(); j++)
+			{
+				if (checkIndividualDependency(dep.get(j)) == false)
+				{
+					valid = false;
+				}
+			}
+		}
+
+		if(valid == false)
+		{
+			JFrame frame = new JFrame();
+			JOptionPane error = new JOptionPane();
+			error.setName("Error");
+			JPanel panel = new JPanel();
+			panel.setLayout(new FlowLayout());
+			JOptionPane.showMessageDialog(frame, "Please enter valid dependencies", "Error", JOptionPane.INFORMATION_MESSAGE);
+	  		error.add(panel);
+	  		frame.add(error);
+	  		error.setSize(300,300);
+	  		error.setVisible(true);
+		}
+
+		return valid;
+	}
+
+	public String printPath()
+	{
+		String result = "This will be the output";
+		for(int i = 0; i < nodelist.size(); i++)
+		{
+
+		}
+
+		return result;
+	}
+
+	public Node findNext(Node current)
+	{
+		Node temp = nodelist.get(0);
+		ArrayList<String> dep;
+
+		for(int i = 0; i < nodelist.size(); i++)
+		{
+			temp = nodelist.get(i);
+			dep = nodelist.get(i).getDependencies();
+			for(int j = 0; j < dep.size(); j ++)
+			{
+				if(dep.get(j).equals(current.getName()))
+				{
+					return temp;
+				}
+			}
+		}
+		return temp;
 	}
 
 }
