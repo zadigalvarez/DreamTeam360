@@ -6,18 +6,6 @@ import java.util.HashMap;
 public class TextInput {
 
   public static void main(String[] args) {
-    addToArray("seventhActivity", 10, "sixthActivity");
-    addToArray("secondActivity", 5, "firstActivity");
-    addToArray("firstActivity", 4, "");
-    addToArray("fifthActivity", 3, "fourthActivity");
-    addToArray("fourthActivity", 6, "thirdActivity");
-    addToArray("eighthActivity", 10, "seventhActivity");
-    addToArray("sixthActivity", 8, "fifthActivity");
-    addToArray("thirdActivity", 10, "secondActivity");
-    addToArray("tenthActivity", 10, "ninthActivity");
-    addToArray("ninthActivity", 10, "eighthActivity");
-    addToArray("eleventhActivity", 10, "tenthActivity");
-
     System.out.println("BEFORE SORTING:\n");
     printArray();
     sortArray();
@@ -53,12 +41,25 @@ public class TextInput {
    * Prints array using for loop - there's probably a better way to do this
    */
   public static void printArray() {
+	  System.out.println("PATHS: \n");
+	  int total = 0;
     for (int i = 0; i < userArray.size(); i++) {
       String name = userArray.get(i);
-      System.out.println("Name: " + name);
-      System.out.println("Duration: " + userDurations.get(name));
-      System.out.println("Dependencies: " + userDependencies.get(name) + "\n");
+      if (i == 0)
+      {
+    	  System.out.print(name);
+    	  total += userDurations.get(name);
+      }
+      else
+      {
+      System.out.print(" -> " + name);
+      total += userDurations.get(name);
+      }
+      //System.out.println("Name: " + name);
+      //System.out.println("Duration: " + userDurations.get(name));
+      //System.out.println("Dependencies: " + userDependencies.get(name) + "\n");
     }
+    System.out.println("\nDuration: " + total);
   }
 
   /**
