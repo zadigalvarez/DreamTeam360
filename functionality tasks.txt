@@ -1,0 +1,31 @@
+Functionality tasks: 
+
+-Process the information entered on text fields whenever "Enter another activity" or "Generate path" button is pressed
+
+-"Enter another activity" will clear text fields and get ready to process more information
+
+-"Generate path" will take you to the display and generate the paths in descending order based on duration
+
+-"Restart" button will clear the list of activities
+
+-"Quit" will end the program 
+
+-"About" will open a text display with option to go back to main menu
+
+-"Help" will open a text display with option to go back to main menu
+
+-Error messages displayed for dependencies cycle
+
+-Error messages for empty text field
+
+-Error messages for dependencies on activities not previously entered
+
+-Error messages for clicking generate path with no activities entered
+
+-Incomplete activity when pressing generate path, possible error message
+
+-If activity is first activity entered, dependency must be empty
+
+Help: The Network Analysis Program is designed to create a list of required paths to be completed by the user after accepting a number of inputs. Inputs come in the form of an activity name, a duration, and a list of dependencies. The NAP will use these inputs to create paths, which show the total duration for each, as well as all activity names along the path. 
+
+To use, enter an activity name and duration. If the activity's start is dependent on other processes' completion, enter the name of the dependencies, separated by commas. To add additional activities, select "Add Another Activity". To view the possible outcomes, select "Generate Paths". To start over, select "Restart". To close the program, select "Quit".
