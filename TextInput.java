@@ -1,3 +1,5 @@
+package DreamTeam360;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -77,7 +79,8 @@ public class TextInput {
       for (int i = 0; i < userArray.size(); i++) {
         String currentActivity = userArray.get(i);
         String currentDependency = userDependencies.get(currentActivity);
-        if (currentDependency == searchingDependency) {
+        //String comparison method rather than (== 0)
+        if (currentDependency.compareTo(searchingDependency) == 0) {
           String temp = userArray.get(newCount);
           userArray.set(newCount, currentActivity);
           userArray.set(i, temp);

@@ -1,3 +1,5 @@
+package DreamTeam360;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -142,7 +144,8 @@ public class InterfacePanel extends JPanel
 		{
 			  //variables used to get user input and eventually enter the information as a node if input is correct
 		      JTextField field1, field2, field3;
-		      String fieldin1, fieldin2, fieldin3;
+		      String fieldin1 = "", fieldin2 = "", fieldin3 = "";
+		      		      
 		      ArrayList<String> dependencies = new ArrayList<String>();
 		      String name;
 		      int duration;
@@ -152,12 +155,12 @@ public class InterfacePanel extends JPanel
 		      field1 = (JTextField) panel.getComponent(1);
 		      field2 = (JTextField) panel.getComponent(3);
 		      field3 = (JTextField) panel.getComponent(5);
-
+		      
 		      //obtain user input
 		      fieldin1 = field1.getText();
 		      fieldin2 = field2.getText();
 		      fieldin3 = field3.getText();
-
+		      
 		      //if either the activity name or duration is empty, give out an error
 		      if(fieldin1.isEmpty() || fieldin2.isEmpty())
 		      {
@@ -307,6 +310,8 @@ public class InterfacePanel extends JPanel
 		      		//if all input is correct, the activity is added to the nodelist
 		      		node = new Node(name, duration, dependencies);
 		      		nodelist.add(node);
+		      		
+		      		TextInput.addToArray(name, duration, fieldin3);
 
 
 		      //resets the text fields to null
@@ -321,13 +326,8 @@ public class InterfacePanel extends JPanel
 	{
 		public void actionPerformed(ActionEvent event)
 		{
-
-
-		    /*
-		     *
-		     * enter code here
-		     *
-		     */
+			TextInput.sortArray();
+			TextInput.printArray();
 		}
 	}//end of generate button listener
 
