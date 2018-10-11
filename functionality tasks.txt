@@ -22,4 +22,4 @@ Functionality tasks:
 
 -Error messages for clicking generate path with no activities entered
 
--Incomplete activity when pressing generate path, possible error message
+
