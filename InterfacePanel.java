@@ -8,9 +8,12 @@ public class InterfacePanel extends JPanel
 {
 	private JPanel panel;
 	private ArrayList<Node> nodelist;
+	private ArrayList<Path> paths;
 
 	public InterfacePanel(ArrayList<Node> list)
 	{
+		paths = new ArrayList<Path>();
+		
 		//nodelist is an arraylist of nodes of inputted activities
 		nodelist = list;
 
@@ -272,7 +275,7 @@ public class InterfacePanel extends JPanel
 		      		//if all input is correct, the activity is added to the nodelist
 		      		node = new Node(name, duration, dependencies);
 		      		nodelist.add(node);
-		      		TextInput.addToArray(name, duration, fieldin3);
+		      		//TextInput.addToArray(name, duration, dependencies);
 
 
 		      //resets the text fields to null
@@ -291,20 +294,12 @@ public class InterfacePanel extends JPanel
 				boolean valid = checkDependencies(nodelist);
 				if(valid)
 				{
-					JFrame frame = new JFrame();
-					JOptionPane error = new JOptionPane();
-					error.setName("Error");
-					JPanel panel = new JPanel();
-					panel.setLayout(new FlowLayout());
-					JOptionPane.showMessageDialog(frame, printPath(), "Error", JOptionPane.INFORMATION_MESSAGE);
-					error.add(panel);
-					frame.add(error);
-					error.setSize(300,300);
-					error.setVisible(true);
-					return;
+					//TextInput.sortArray();
+					//TextInput.printArray();
+					createPaths();
+					//System.out.print(printPath());
 				}
-				TextInput.sortArray();
-				TextInput.printArray();
+				
 		}
 	}//end of generate button listener
 
@@ -374,16 +369,7 @@ public class InterfacePanel extends JPanel
 		return valid;
 	}
 
-	public String printPath()
-	{
-		String result = "This will be the output";
-		for(int i = 0; i < nodelist.size(); i++)
-		{
 
-		}
-
-		return result;
-	}
 
 	public Node findNext(Node current)
 	{
@@ -393,7 +379,7 @@ public class InterfacePanel extends JPanel
 		for(int i = 0; i < nodelist.size(); i++)
 		{
 			temp = nodelist.get(i);
-			dep = nodelist.get(i).getDependencies();
+			dep = temp.getDependencies();
 			for(int j = 0; j < dep.size(); j ++)
 			{
 				if(dep.get(j).equals(current.getName()))
@@ -403,6 +389,61 @@ public class InterfacePanel extends JPanel
 			}
 		}
 		return temp;
+	}
+	public boolean hasNext(Node current)
+	{
+		boolean result = false;
+		Node temp;
+		ArrayList<String> dep;
+
+		for(int i = 0; i < nodelist.size(); i++)
+		{
+			temp = nodelist.get(i);
+			dep = temp.getDependencies();
+			for(int j = 0; j < dep.size(); j ++)
+			{
+				if(dep.get(j).equals(current.getName()))
+				{
+					result = true;
+				}
+			}
+		}
+		return result;
+	}
+	
+	public void createPaths()
+	{
+		
+		ArrayList<Node> Ntemp = new ArrayList<Node>(); 
+		ArrayList<String> Dtemp = new ArrayList<String>(); 
+		Node temp = new Node("", 0, Dtemp);
+		
+		for(int i = 0; i < nodelist.size(); i++)
+		{
+			Dtemp = nodelist.get(i).getDependencies();
+			if(Dtemp.size() == 0)
+			{
+				Ntemp.add(nodelist.get(i));
+				
+			}
+		}
+		temp = findNext(Ntemp.get(0));
+		Ntemp.add(temp);	
+		while(hasNext(temp)){
+			
+			temp = findNext(temp);
+			Ntemp.add(temp);
+		}
+			
+		
+		
+		Path path = new Path(Ntemp);
+		paths.add(path);
+		for(int i = 0; i < paths.size(); i++)
+		{
+			System.out.println(path.printList());
+		}
+		
 	}
 
 }
