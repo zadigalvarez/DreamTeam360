@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Path {
 	private int totalduration;
 	private ArrayList<Node> nodelist;
+	
 	public Path(ArrayList<Node> list)
 	{
 		nodelist = list;
@@ -22,6 +23,10 @@ public class Path {
 	public int getDuration()
 	{
 		return totalduration;
+	}
+	public ArrayList<Node> getNodeList()
+	{
+		return nodelist;
 	}
 	
 	public String printList()

@@ -297,7 +297,8 @@ public class InterfacePanel extends JPanel
 					//TextInput.sortArray();
 					//TextInput.printArray();
 					createPaths();
-					//System.out.print(printPath());
+					printList();
+					
 				}
 				
 		}
@@ -316,6 +317,7 @@ public class InterfacePanel extends JPanel
 		    field2.setText(null);
 		    field3.setText(null);
 		    nodelist.clear();
+		    paths.clear();
 
 		}
 	}//end of restart button listener
@@ -414,9 +416,19 @@ public class InterfacePanel extends JPanel
 	public void createPaths()
 	{
 		
+		
+		ArrayList<Node> Ntemp = new ArrayList<Node>(); 	
+		Ntemp = findSinglePath(nodelist);
+		Path path = new Path(Ntemp);
+		paths.add(path);
+		
+		
+	}
+	public ArrayList<Node> findSinglePath(ArrayList<Node> nodelist2)
+	{
 		ArrayList<Node> Ntemp = new ArrayList<Node>(); 
 		ArrayList<String> Dtemp = new ArrayList<String>(); 
-		Node temp = new Node("", 0, Dtemp);
+		Node temp;
 		
 		for(int i = 0; i < nodelist.size(); i++)
 		{
@@ -428,22 +440,40 @@ public class InterfacePanel extends JPanel
 			}
 		}
 		temp = findNext(Ntemp.get(0));
-		Ntemp.add(temp);	
-		while(hasNext(temp)){
+		Ntemp.add(temp);
+		
+		while(hasNext(temp))
+		{
 			
 			temp = findNext(temp);
 			Ntemp.add(temp);
 		}
-			
-		
-		
-		Path path = new Path(Ntemp);
-		paths.add(path);
+		return Ntemp;
+	}
+	
+	public int dependentOn(Node node)
+	{
+		int result =0;
+		ArrayList<String> temp;
+		for(int i = 0; i < nodelist.size(); i++)
+		{
+			temp = nodelist.get(i).getDependencies();
+			for(int j = 0; j < temp.size(); j++)
+			{
+				if(temp.get(j).equals(node.getName()))
+				{
+					result++;
+				}
+			}
+		}
+		return result;
+	}
+	public void printList()
+	{
 		for(int i = 0; i < paths.size(); i++)
 		{
-			System.out.println(path.printList());
+			System.out.println(paths.get(i).printList());
 		}
-		
 	}
 
 }
