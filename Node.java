@@ -41,4 +41,19 @@ public class Node
 		return dependencies;
 	}
 	
+	public boolean equals(Object o)
+	{
+		boolean result = false;
+		if (o != null && o instanceof Node)
+		{
+			String nam = ((Node)o).getName();
+			int dur = ((Node)o).getDuration();
+			if(this.getName().equals(nam) && this.getDuration() == dur)
+			{
+				result = true;
+			}
+		}
+		return result;
+	}
+	
 }

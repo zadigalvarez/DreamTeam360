@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 
 public class Path {
 	private int totalduration;
@@ -43,6 +43,49 @@ public class Path {
 		
 		return result;
 				
+	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		boolean result = true;
+		
+		if (o != null && o instanceof Path)
+		{
+			Path object = (Path)o;
+			//paths are of same size
+			if(this.getNodeList().size() == object.getNodeList().size())
+			{
+				Node temp;
+				ArrayList<Node> list1 = this.getNodeList();
+				ArrayList<Node> list2 = object.getNodeList();
+				for(int i = 0; i < this.getNodeList().size(); i++)
+				{
+					//nodes in same position are not equal
+					if (list1.get(i).equals(list2.get(i)) == false)
+					{
+						result = false;
+					}
+				}
+			}
+			//paths are of different size
+			else
+			{
+				result = false;
+			}
+		}
+		
+		else
+		{
+			result = false;
+		}
+		return result;
+	}
+	
+	@Override
+	public int hashCode() 
+	{
+	      return this.getNodeList().hashCode();
 	}
 	
 }
