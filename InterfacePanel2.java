@@ -9,6 +9,7 @@ public class InterfacePanel2 extends JPanel
 	private JPanel panel;
 	private ArrayList<Node> nodelist;
 	private ArrayList<Path> paths;
+	private boolean circularError = false;
 
 	public InterfacePanel2(ArrayList<Node> list)
 	{
@@ -301,11 +302,18 @@ public class InterfacePanel2 extends JPanel
 					generatePath.setName("Error");
 					JPanel panel = new JPanel();
 					panel.setLayout(new FlowLayout());
-					JOptionPane.showMessageDialog(frame, printList() , "Generate Path", JOptionPane.INFORMATION_MESSAGE);
-			  		generatePath.add(panel);
-			  		frame.add(generatePath);
-			  		generatePath.setSize(300,300);
-			  		generatePath.setVisible(true);
+					if(!circularError) {
+						JOptionPane.showMessageDialog(frame, printList(), "Generate Path", JOptionPane.INFORMATION_MESSAGE);
+						generatePath.add(panel);
+						frame.add(generatePath);
+						generatePath.setSize(300, 300);
+						generatePath.setVisible(true);
+					}else{
+						JOptionPane.showMessageDialog(frame, "Circular error", "Generate Path", JOptionPane.INFORMATION_MESSAGE);
+						generatePath.add(panel);
+						generatePath.setSize(300, 300);
+						generatePath.setVisible(true);
+					}
 				}
 				
 		}
@@ -456,11 +464,17 @@ public class InterfacePanel2 extends JPanel
 		result.add(temp); //add the second node in the path
 		
 		int currentIndex = 1;
+		int counter = 0;
 		//while there is a next node, continue adding to the path
 		while(hasNext(temp, Ntemp))
 		{
+			if(counter > nodelist.size()){
+				circularError = true;
+				break;
+			}
 			howmany = dependentOn(result.get(currentIndex), Ntemp);
 			System.out.println(howmany + " are dependent on " + result.get(currentIndex).getName());
+			counter++;
 			temp = findNext(temp, Ntemp);
 			if(howmany > 1)
 			{
@@ -526,6 +540,17 @@ public class InterfacePanel2 extends JPanel
 	
 	public String printList()
 	{
+		for(int i = 0; i < paths.size()-1; i++){
+			int firstPath = paths.get(i).getDuration();
+			for(int j = 0; j < paths.size(); j++){
+				int secondPath = paths.get(j).getDuration();
+				if(firstPath > secondPath){
+					Path temp = paths.get(i);
+					paths.set(i, paths.get(j));
+					paths.set(j, temp);
+				}
+			}
+		}
 		String result = "";
 		for(int i = 0; i < paths.size(); i++)
 		{
