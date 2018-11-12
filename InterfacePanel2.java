@@ -314,6 +314,57 @@ public class InterfacePanel2 extends JPanel
 						generatePath.setSize(300, 300);
 						generatePath.setVisible(true);
 					}
+					// new panel that pops after the Generate Button is pressed for Phase 2 actions
+					JPanel morePanel = new JPanel(new GridLayout(4,3));
+					JFrame frame2 = new JFrame("More Options");
+					frame2.setSize(800, 400);
+					frame2.setLocationRelativeTo(null);
+					frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frame2.setVisible(true);
+					// Row 1
+					JLabel critPath = new JLabel ("Only Show Critical Path(s)");
+					JCheckBox critical = new JCheckBox();
+					JButton onlyCritical = new JButton("Show Critical Path(s)");
+					
+					// Row 2
+					JLabel selectNode = new JLabel("Select Node");
+					JTextField nodes = new JTextField(); 
+					JButton newDuration = new JButton("Show New Path(s)");
+					
+					//Row 3
+					JLabel changeDur = new JLabel("Change Duration");
+					JTextField newDur = new JTextField();
+					JButton newDuration2 = new JButton("Show New Path(s)");
+					
+					// Row 4
+					JLabel report = new JLabel("Create Report");
+					JTextField title = new JTextField();
+					JButton genReport = new JButton("Generate Report");
+					
+					
+					
+					
+					morePanel.add(critPath); //Label 1
+					morePanel.add(critical); // checkbox
+					morePanel.add(onlyCritical); // Button 1
+					
+					morePanel.add(selectNode); // Label 2
+					morePanel.add(nodes); // Text Field
+					morePanel.add(newDuration); // Button 2
+					
+					morePanel.add(changeDur); // Label 3
+					morePanel.add(newDur); // Text Field 
+					morePanel.add(newDuration2); // Button 3
+					
+					morePanel.add(report); // Label 4
+					morePanel.add(title); // Text Field
+					morePanel.add(genReport); // Button 4
+					
+					
+					
+					frame2.add(morePanel);
+					
+					
 				}
 				
 		}
