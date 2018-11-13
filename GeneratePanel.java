@@ -69,6 +69,37 @@ public class GeneratePanel extends JPanel
 		duration.setPreferredSize(new Dimension(300, 50));
 		report.setPreferredSize(new Dimension(300, 50));
 		this.add(panel);
+		
+		//buttonlisteners
+		displayPaths.addActionListener(new displayButtonListener());
+		newPaths.addActionListener(new newPathButtonListener());
+		createReport.addActionListener(new createRepButtonListener());
+		
 	}
+		
+		private class displayButtonListener implements ActionListener
+		{
+		      public void actionPerformed (ActionEvent event)
+		      {
+		    	  	
+		      }
+		}//end of display button listener
+		
+		private class newPathButtonListener implements ActionListener
+		{
+		      public void actionPerformed (ActionEvent event)
+		      {
+		    	  	
+		      }
+		}//end of newPath button listener
+		
+		private class createRepButtonListener implements ActionListener
+		{
+		      public void actionPerformed (ActionEvent event)
+		      {
+		    	  	
+		      }
+		}//end of createRepButton listener
+	
 
 }
