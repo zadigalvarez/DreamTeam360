@@ -1,7 +1,7 @@
 # Additional requirements:
 
 ## 1. There must be an option to choose and display the nodes that are on the critical path
-### a. If there is more than one path that is critical, then all paths must be displayed. 
+### a. If there is more than one path that is critical, then all critical paths must be displayed
 ### b. Paths that are not critical should not be displayed.
 
 ## 2. There must be the ability to change the duration of an activity once the paths have been determined. 
