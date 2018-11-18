@@ -11,12 +11,14 @@ public class InterfacePanel2 extends JPanel
 	private ArrayList<Path> paths;
 	private boolean circularError = false;
 
-	public InterfacePanel2(ArrayList<Node> list)
+	public InterfacePanel2(ArrayList<Node> nodelist, ArrayList<Path> paths, boolean circularError)
 	{
-		paths = new ArrayList<Path>();
+		this.paths = paths;
 		
 		//nodelist is an arraylist of nodes of inputted activities
-		nodelist = list;
+		this.nodelist = nodelist;
+		this.paths = paths;
+		this.circularError = circularError;
 
 		//Panel layout
 		panel = new JPanel(new GridLayout(6,2));
@@ -281,8 +283,6 @@ public class InterfacePanel2 extends JPanel
 		      field1.setText(null);
 		      field2.setText(null);
 		      field3.setText(null);
-
-
 		}
 	}//end of enter button listener
 
@@ -295,8 +295,9 @@ public class InterfacePanel2 extends JPanel
 				{
 					createPaths(nodelist);
 					removeDuplicates();
+					sortPaths();
 					
-					GeneratePanel panel = new GeneratePanel();
+					GeneratePanel panel = new GeneratePanel(nodelist, paths, circularError);
 					
 					JFrame generateFrame = new JFrame("Generate Options");
 					generateFrame.add(panel);
@@ -304,17 +305,7 @@ public class InterfacePanel2 extends JPanel
 					generateFrame.setLocationRelativeTo(null);
 					generateFrame.setVisible(true);
 					
-					if(!circularError) 
-					{
-						/*
-						JOptionPane.showMessageDialog(frame, printList(), "Generate Path", JOptionPane.INFORMATION_MESSAGE);
-						generatePath.add(panel);
-						frame.add(generatePath);
-						generatePath.setSize(300, 300);
-						generatePath.setVisible(true);
-						*/
-					}
-					else
+					if(circularError) 
 					{
 						JOptionPane generatePath = new JOptionPane();
 						generatePath.setName("Error");
@@ -497,7 +488,7 @@ public class InterfacePanel2 extends JPanel
 		}
 		
 		Path path = new Path(result);
-		paths.add(path);
+		this.paths.add(path);
 		
 		
 	}
@@ -549,17 +540,6 @@ public class InterfacePanel2 extends JPanel
 	
 	public String printList()
 	{
-		for(int i = 0; i < paths.size()-1; i++){
-			int firstPath = paths.get(i).getDuration();
-			for(int j = 0; j < paths.size(); j++){
-				int secondPath = paths.get(j).getDuration();
-				if(firstPath > secondPath){
-					Path temp = paths.get(i);
-					paths.set(i, paths.get(j));
-					paths.set(j, temp);
-				}
-			}
-		}
 		String result = "";
 		for(int i = 0; i < paths.size(); i++)
 		{
@@ -567,5 +547,29 @@ public class InterfacePanel2 extends JPanel
 		}
 		return result;
 	}
-
+	public void sortPaths() //bubble sort paths w descending duration
+	 { 
+	        for (int i = 0; i < paths.size() - 1; i++) 
+	        {
+	            int firstPath = paths.get(i).getDuration();
+	            for (int j = 1; j < paths.size(); j++) 
+	            {
+	                int secondPath = paths.get(j).getDuration();
+	                if (firstPath < secondPath) 
+	                {
+	                    Path temp = paths.get(i);
+	                    paths.set(i, paths.get(j));
+	                    paths.set(j, temp);
+	                }
+	            }
+	        }
+	 } // end of sort paths
+	public ArrayList<Node> getNodelist()
+	{
+		return nodelist;
+	}
+	public ArrayList<Path> getPaths()
+	{
+		return paths;
+	}
 }

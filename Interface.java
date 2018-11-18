@@ -10,7 +10,9 @@ public class Interface extends JFrame
 	{
 		
 		ArrayList<Node> nodelist = new ArrayList<Node>();
-		InterfacePanel2 panel = new InterfacePanel2(nodelist);
+		ArrayList<Path> paths = new ArrayList<Path>();
+		boolean circularError = false;
+		InterfacePanel2 panel = new InterfacePanel2(nodelist, paths, circularError);
 		
 		//frame setup
 		JFrame frame = new JFrame("Network Analysis Program");

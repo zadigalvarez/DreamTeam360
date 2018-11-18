@@ -3,15 +3,20 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.event.*;
 import java.util.*;
+import java.io.*;
+import java.text.*;
 
 public class GeneratePanel extends JPanel
 {
 	private JPanel panel;
+	private InterfacePanel2 intPanel;
+	private boolean criticalPath;
+	private JCheckBox critical;
 	
-	public GeneratePanel()
+	public GeneratePanel(ArrayList<Node> nodelist, ArrayList<Path> paths, boolean circularError)
 	{
-		
-		
+		intPanel = new InterfacePanel2(nodelist, paths, circularError);
+		criticalPath = false;
 		JPanel panel = new JPanel(new GridLayout(3,1));
 		JPanel displayPanel = new JPanel(new BorderLayout());
 		JPanel updatePanel = new JPanel(new BorderLayout());
@@ -21,7 +26,7 @@ public class GeneratePanel extends JPanel
 		
 		//display panel setup
 		JLabel displayLabel = new JLabel("                                                                                                Display Paths");
-		JCheckBox critical = new JCheckBox("Only Show Critical Path(s)");
+		critical = new JCheckBox("Only Show Critical Path(s)");
 		JButton displayPaths = new JButton("Display Paths");
 		displayPanel.add(displayLabel, BorderLayout.NORTH);
 		displayPanel.add(critical, BorderLayout.CENTER);
@@ -74,6 +79,7 @@ public class GeneratePanel extends JPanel
 		displayPaths.addActionListener(new displayButtonListener());
 		newPaths.addActionListener(new newPathButtonListener());
 		createReport.addActionListener(new createRepButtonListener());
+		critical.addItemListener(new CheckBoxListener());
 		
 	}
 		
@@ -81,6 +87,22 @@ public class GeneratePanel extends JPanel
 		{
 		      public void actionPerformed (ActionEvent event)
 		      {
+		    	  if(criticalPath == false)
+		    	  {
+		    		  	JFrame dispFrame = new JFrame("Display Paths");
+			    	  	JPanel panel = new JPanel();
+			  			panel.setLayout(new FlowLayout());
+			    	  	JOptionPane generatePath = new JOptionPane();
+			    	  	JOptionPane.showMessageDialog(dispFrame, intPanel.printList(), "Generate Path", JOptionPane.INFORMATION_MESSAGE);
+						generatePath.add(panel);
+						dispFrame.add(generatePath);
+						generatePath.setSize(300, 300);
+						generatePath.setVisible(true);
+		    	  }
+		    	  else
+		    	  {
+		    		  
+		    	  }
 		    	  	
 		      }
 		}//end of display button listener
@@ -97,9 +119,77 @@ public class GeneratePanel extends JPanel
 		{
 		      public void actionPerformed (ActionEvent event)
 		      {
-		    	  	
-		      }
+		    	  try 
+		    	  {
+		                FileWriter fw = new FileWriter("report.txt", false); // change to true if we want to append instead of overwrite
+		                BufferedWriter bw = new BufferedWriter(fw);
+		                PrintWriter out = new PrintWriter(bw);
+		                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		                Date date = new Date();
+		                out.println();
+		                out.println("Dream Team 360");
+		                out.println("Created on: " + formatter.format(date));
+		                out.println();
+		                sortNodeList();
+		                out.println("ACTIVITIES:");
+		                //iterates through now-sorted activities
+		                ArrayList<Node> nodelist = intPanel.getNodelist();
+		                for(int i = 0; i < nodelist.size(); i++)
+		                {
+		                    out.println("Activity: " + nodelist.get(i).getName());
+		                    out.println("Duration: " + nodelist.get(i).getDuration());
+		                    out.println();
+		                }
+		                
+		                intPanel.sortPaths();
+		                out.println("PATHS:");
+		                //same printList method from Paths.java
+		                out.println(intPanel.printList());
+		                 //end PrintWriter
+		                out.close();
+		          } 
+		    	  
+		    	  catch(IOException e)
+		    	  {
+		                System.out.println("Error");
+		          }
+		        
+		    }
+		      
 		}//end of createRepButton listener
+		
+		private class CheckBoxListener implements ItemListener
+		{
+			public void itemStateChanged(ItemEvent event)
+			{
+				Object source = event.getSource();
+				if(critical.isSelected() == true)
+				{
+					criticalPath = true;
+				}
+				else
+				{
+					criticalPath = false;
+				}
+				
+			}
+		}
 	
-
+		 
+		private void sortNodeList()//bubble sorts node list for report generator
+		{ 
+			ArrayList<Node> nodelist = intPanel.getNodelist();
+	        for(int i = 0; i < nodelist.size(); i++)
+	        {
+	            for(int j = i; j < nodelist.size(); j++)
+	            {
+	                if(nodelist.get(i).getName().compareTo(nodelist.get(j).getName()) > 0)
+	                {
+	                    Node temp = nodelist.get(i);
+	                    nodelist.set(i, nodelist.get(j));
+	                    nodelist.set(j, temp);
+	                }
+	            }
+	        }
+	    } //end of sort node list 
 }
