@@ -137,7 +137,7 @@ public class GeneratePanel extends JPanel
 		                Date date = new Date();
 		                //userRepName = new File("");
 		                out.println();
-		                out.println("Dream Team 360");
+		                out.println("Report Title: "+reportName);
 		                out.println("Created on: " + formatter.format(date));
 		                out.println();
 		                sortNodeList();
