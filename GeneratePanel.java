@@ -161,6 +161,7 @@ import java.text.*;
 		    	  	//fix paths
 		    	  	intPanel.clearPaths();
 		    	  	intPanel.createPaths(nodelist);
+				intPanel.sortPaths();
 		    	  	
 		    	  	actName.setText(null);
 		    	  	durName.setText(null);
