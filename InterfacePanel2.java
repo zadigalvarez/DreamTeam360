@@ -265,6 +265,7 @@ public class InterfacePanel2 extends JPanel
 		    	  					stemp = fieldin3.substring(0,i);
 		    	  					dependencies.add(stemp);
 		    	  					fieldin3 = fieldin3.substring(i+1);
+		    	  					i = 0;
 		    	  				}
 		    	  			}
 		    	  			dependencies.add(fieldin3);
@@ -352,6 +353,7 @@ public class InterfacePanel2 extends JPanel
 				result = true;
 			}
 		}
+		System.out.println(dep + " was found");
 		return result;
 	}
 
@@ -433,6 +435,7 @@ public class InterfacePanel2 extends JPanel
 	
 	public void createPaths(ArrayList<Node> list)
 	{
+		System.out.print("Creating new path");
 		ArrayList<Node> result = new ArrayList<Node>(); //where path is created
 		ArrayList<Node> Ntemp = (ArrayList<Node>) list.clone(); //copy of the send nodelist
 		ArrayList<String> Dtemp = new ArrayList<String>(); //used for storing dependencies list temporarily
@@ -453,13 +456,13 @@ public class InterfacePanel2 extends JPanel
 		//calculates how many nodes are dependent on it
 		int howmany = dependentOn(result.get(0), Ntemp);
 		temp = findNext(result.get(0), Ntemp); //find which node is next after the start
-		
+		System.out.println(howmany + " are dependant on " + result.get(0).getName());
 		if(howmany > 1)
 		{
-			ArrayList<String> none = new ArrayList<String>(); //create a list of strings that is empty, representing no dependencies
 			send = (ArrayList<Node>) Ntemp.clone(); //clone the array that was sent
 			send.remove(getIndex(temp, send)); //remove one of the nodes dependent on the current node to send for the next path
 			createPaths(send);
+			System.out.print("Back from new path");
 		}
 		
 		result.add(temp); //add the second node in the path
@@ -474,14 +477,15 @@ public class InterfacePanel2 extends JPanel
 				break;
 			}
 			howmany = dependentOn(result.get(currentIndex), Ntemp);
+			System.out.println(howmany + " are dependant on " + result.get(currentIndex).getName());
 			counter++;
 			temp = findNext(temp, Ntemp);
 			if(howmany > 1)
 			{
-				ArrayList<String> none = new ArrayList<String>(); //create a list of strings that is empty, representing no dependencies
 				send = (ArrayList<Node>) Ntemp.clone(); //clone the array that was sent
 				send.remove(getIndex(temp, send)); //remove one of the nodes dependent on the current node to send for the next path
 				createPaths(send);
+				System.out.println("Back from new path again");
 			}
 			result.add(temp);
 			currentIndex++;

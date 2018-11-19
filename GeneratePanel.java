@@ -6,18 +6,16 @@ import java.util.*;
 import java.io.*;
 import java.text.*;
 
-public class GeneratePanel extends JPanel
+ public class GeneratePanel extends JPanel
 {
 	private JPanel panel, reportPanel2;
 	private InterfacePanel2 intPanel;
 	private boolean criticalPath;
 	private JCheckBox critical;
-	private ArrayList<Path> paths;
 	
 	public GeneratePanel(ArrayList<Node> nodelist, ArrayList<Path> paths, boolean circularError)
 	{
 		intPanel = new InterfacePanel2(nodelist, paths, circularError);
-		this.paths = paths;
 		criticalPath = false;
 		JPanel panel = new JPanel(new GridLayout(3,1));
 		JPanel displayPanel = new JPanel(new BorderLayout());
@@ -68,8 +66,7 @@ public class GeneratePanel extends JPanel
 		panel.add(displayPanel);
 		panel.add(updatePanel);
 		panel.add(reportPanel);
-
-		displayLabel.setPreferredSize(new Dimension(350, 25));
+ 		displayLabel.setPreferredSize(new Dimension(350, 25));
 		updateLabel.setPreferredSize(new Dimension(350, 25));
 		reportLabel.setPreferredSize(new Dimension(350, 50));
 		activity.setPreferredSize(new Dimension(300, 50));
@@ -183,41 +180,9 @@ public class GeneratePanel extends JPanel
 				{
 					criticalPath = false;
 				}
-				if(criticalPath)
-				{
-					ArrayList<Node> nodelist = intPanel.getNodelist();
-					//temp arrays for comparisons
-					String temp1[] = new String[nodelist.size()];
-					String temp2[] = new String[nodelist.size()];
-					for(int i = 0; i < nodelist.size(); i++) //loop for first node
-					{
-						temp1[0] = nodelist.get(i).getName(); //grab first node name
-						temp1[1] = nodelist.get(nodelist.size()).getName(); //grab last node name
-						for(int j = 1; j < nodelist.size(); j++) //loop for next node for comparison
-						{
-							temp2[0] = nodelist.get(i).getName(); //grab first node name
-							temp2[1] = nodelist.get(nodelist.size()).getName(); //grab last node name
-							if(temp1[0] == temp2[0] && temp1[1] == temp2[1]) // if both the first and last nodes in the path are the same
-							{
-								 int tempDur = nodelist.get(i).getDuration();
-								 if(tempDur > nodelist.get(j).getDuration())
-								 {
-									 // only show node at i
-								 }
-								 else if(tempDur == nodelist.get(j).getDuration())
-								 {
-									 // show both
-								 }
-								 else
-								 {
-									 // only show node at j
-								 }	 
-							}
-						}
-					}
-				}
+				
 			}
-		}//end of checkbox listener
+		}
 	
 		 
 		private void sortNodeList()//bubble sorts node list for report generator
@@ -236,4 +201,4 @@ public class GeneratePanel extends JPanel
 	            }
 	        }
 	    } //end of sort node list 
-}
+} 
