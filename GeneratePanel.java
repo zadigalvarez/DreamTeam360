@@ -21,7 +21,7 @@ import java.text.*;
 		JPanel displayPanel = new JPanel(new BorderLayout());
 		JPanel updatePanel = new JPanel(new BorderLayout());
 		JPanel reportPanel = new JPanel(new BorderLayout());
-		JPanel updatePanel2 = new JPanel(new GridLayout(2,2));
+		updatePanel2 = new JPanel(new GridLayout(2,2));
 		reportPanel2 = new JPanel(new GridLayout(2,2));
 		
 		//display panel setup
@@ -100,7 +100,36 @@ import java.text.*;
 		    	  }
 		    	  else
 		    	  {
-		    		  
+		    		  //instantiations
+		    		  intPanel.sortPaths();
+		    		  ArrayList<Path> paths = intPanel.getPaths();
+		    		  ArrayList<Path> temp = new ArrayList<Path>();
+		    		  temp.add(paths.get(0));
+		    		  int size = 0;
+		    		  int maxDuration = paths.get(0).getDuration();
+		    		  String result = "";
+		    		  //loop until a smaller duration is found
+		    		  for(int i = 1; i < paths.size(); i++)
+		    		  {
+		    			  if(paths.get(i).getDuration() == maxDuration)
+		    			  {
+		    				  temp.add(paths.get(i));
+		    			  }
+		    		  }
+		    		  for(int j = 0; j <= size; j++)
+	  					{
+	  						result += paths.get(j).printList() + "\n";
+	  					}
+		    		  //message dialog box
+		    		  JFrame dispFrame = new JFrame("Critical Paths");
+			    	  	JPanel panel = new JPanel();
+			  			panel.setLayout(new FlowLayout());
+			    	  	JOptionPane generatePath = new JOptionPane();
+			    	  	JOptionPane.showMessageDialog(dispFrame, intPanel.printCritical(temp), "Critical Paths", JOptionPane.INFORMATION_MESSAGE);
+						generatePath.add(panel);
+						dispFrame.add(generatePath);
+						generatePath.setSize(300, 300);
+						generatePath.setVisible(true);
 		    	  }
 		    	  	
 		      }
@@ -225,4 +254,5 @@ import java.text.*;
 	            }
 	        }
 	    } //end of sort node list 
+		
 } 
