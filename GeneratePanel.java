@@ -8,7 +8,7 @@ import java.text.*;
 
 public class GeneratePanel extends JPanel
 {
-	private JPanel panel;
+	private JPanel panel, reportPanel2;
 	private InterfacePanel2 intPanel;
 	private boolean criticalPath;
 	private JCheckBox critical;
@@ -22,7 +22,7 @@ public class GeneratePanel extends JPanel
 		JPanel updatePanel = new JPanel(new BorderLayout());
 		JPanel reportPanel = new JPanel(new BorderLayout());
 		JPanel updatePanel2 = new JPanel(new GridLayout(2,2));
-		JPanel reportPanel2 = new JPanel(new GridLayout(2,2));
+		reportPanel2 = new JPanel(new GridLayout(2,2));
 		
 		//display panel setup
 		JLabel displayLabel = new JLabel("                                                                                                Display Paths");
@@ -121,11 +121,21 @@ public class GeneratePanel extends JPanel
 		      {
 		    	  try 
 		    	  {
-		                FileWriter fw = new FileWriter("report.txt", false); // change to true if we want to append instead of overwrite
+		    		    //variables for the user input
+		    		    JTextField repName;
+		    		    String repNameIn, reportName;  
+		    		    //initializing field
+		    		    repName = (JTextField) reportPanel2.getComponent(1);
+		    		    repNameIn = repName.getText();
+		    		    //check if empty string
+		    		    reportName = repNameIn;
+		    		    
+		                FileWriter fw = new FileWriter(reportName+".txt", false); // change to true if we want to append instead of overwrite
 		                BufferedWriter bw = new BufferedWriter(fw);
 		                PrintWriter out = new PrintWriter(bw);
 		                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		                Date date = new Date();
+		                //userRepName = new File("");
 		                out.println();
 		                out.println("Dream Team 360");
 		                out.println("Created on: " + formatter.format(date));
