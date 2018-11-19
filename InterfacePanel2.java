@@ -551,23 +551,28 @@ public class InterfacePanel2 extends JPanel
 		}
 		return result;
 	}
-	public void sortPaths() //bubble sort paths w descending duration
-	 { 
-	        for (int i = 0; i < paths.size() - 1; i++) 
-	        {
-	            int firstPath = paths.get(i).getDuration();
-	            for (int j = 1; j < paths.size(); j++) 
-	            {
-	                int secondPath = paths.get(j).getDuration();
-	                if (firstPath < secondPath) 
-	                {
-	                    Path temp = paths.get(i);
-	                    paths.set(i, paths.get(j));
-	                    paths.set(j, temp);
-	                }
-	            }
-	        }
-	 } // end of sort paths
+	public void sortPaths() //selection sort
+	{
+		//declaring variables
+		int min;
+		Path temp = null;
+		
+		for (int i = 0; i < paths.size() - 1; i++) {
+			min = i;
+			
+        // find position of minimum
+        for (int j = i+1; j < paths.size(); j++) {
+            if (paths.get(j).getDuration() > paths.get(min).getDuration())
+                min = j;
+        }
+        // setting paths
+        temp = paths.get(min);
+        paths.set(min,paths.get(i));
+        paths.set(i,temp);
+        
+        }
+    }
+
 	public ArrayList<Node> getNodelist()
 	{
 		return nodelist;
