@@ -12,10 +12,12 @@ public class GeneratePanel extends JPanel
 	private InterfacePanel2 intPanel;
 	private boolean criticalPath;
 	private JCheckBox critical;
+	private ArrayList<Path> paths;
 	
 	public GeneratePanel(ArrayList<Node> nodelist, ArrayList<Path> paths, boolean circularError)
 	{
 		intPanel = new InterfacePanel2(nodelist, paths, circularError);
+		this.paths = paths;
 		criticalPath = false;
 		JPanel panel = new JPanel(new GridLayout(3,1));
 		JPanel displayPanel = new JPanel(new BorderLayout());
@@ -181,7 +183,11 @@ public class GeneratePanel extends JPanel
 				{
 					criticalPath = false;
 				}
-				
+				// if true, check pairs of arrays for first && last elements matches
+				// use temp arrays to store info from array list, compare those
+				// if first element matches, check last element
+				// if both match, print longer one
+				// do for all combos of start and end until done, critical paths are finished after that
 			}
 		}
 	
