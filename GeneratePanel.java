@@ -183,13 +183,41 @@ public class GeneratePanel extends JPanel
 				{
 					criticalPath = false;
 				}
-				// if true, check pairs of arrays for first && last elements matches
-				// use temp arrays to store info from array list, compare those
-				// if first element matches, check last element
-				// if both match, print longer one
-				// do for all combos of start and end until done, critical paths are finished after that
+				if(criticalPath)
+				{
+					ArrayList<Node> nodelist = intPanel.getNodelist();
+					//temp arrays for comparisons
+					String temp1[] = new String[nodelist.size()];
+					String temp2[] = new String[nodelist.size()];
+					for(int i = 0; i < nodelist.size(); i++) //loop for first node
+					{
+						temp1[0] = nodelist.get(i).getName(); //grab first node name
+						temp1[1] = nodelist.get(nodelist.size()).getName(); //grab last node name
+						for(int j = 1; j < nodelist.size(); j++) //loop for next node for comparison
+						{
+							temp2[0] = nodelist.get(i).getName(); //grab first node name
+							temp2[1] = nodelist.get(nodelist.size()).getName(); //grab last node name
+							if(temp1[0] == temp2[0] && temp1[1] == temp2[1]) // if both the first and last nodes in the path are the same
+							{
+								 int tempDur = nodelist.get(i).getDuration();
+								 if(tempDur > nodelist.get(j).getDuration())
+								 {
+									 // only show node at i
+								 }
+								 else if(tempDur == nodelist.get(j).getDuration())
+								 {
+									 // show both
+								 }
+								 else
+								 {
+									 // only show node at j
+								 }	 
+							}
+						}
+					}
+				}
 			}
-		}
+		}//end of checkbox listener
 	
 		 
 		private void sortNodeList()//bubble sorts node list for report generator
