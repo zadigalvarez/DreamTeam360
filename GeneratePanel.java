@@ -110,7 +110,31 @@ import java.text.*;
 		{
 		      public void actionPerformed (ActionEvent event)
 		      {
+		    	  	// variable declarations
+		    	  	ArrayList<Node> nodelist = intPanel.getNodelist();
+		    	  	JTextField actName, durName;
+		    	  	String actNameIn, durNameIn; 
+		    	  	int changeDur;
+		    	  	// grabbing info from Text Fields
+		    	  	actName = (JTextField)updatePanel2.getComponent(1);
+		    	  	actNameIn = actName.getText();
+		    	  	durName = (JTextField)updatePanel2.getComponent(3);
+		    	  	durNameIn = durName.getText();
+		    	  	changeDur = Integer.parseInt(durNameIn);
 		    	  	
+		    	  	for(int i = 0; i < nodelist.size(); i++)
+		    	  	{
+		    	  		if(actNameIn.compareTo(nodelist.get(i).getName()) == 0)
+		    	  		{
+		    	  			nodelist.get(i).setDuration(changeDur);
+		    	  		}
+		    	  	}
+		    	  	//fix paths
+		    	  	intPanel.clearPaths();
+		    	  	intPanel.createPaths(nodelist);
+		    	  	
+		    	  	actName.setText(null);
+		    	  	durName.setText(null);
 		      }
 		}//end of newPath button listener
 		
