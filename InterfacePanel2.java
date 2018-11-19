@@ -551,23 +551,33 @@ public class InterfacePanel2 extends JPanel
 		}
 		return result;
 	}
+	
+	public String printCritical(ArrayList<Path> list)
+	{
+		String result = "";
+		for(int i = 0; i < list.size(); i++)
+		{
+			result += list.get(i).printList() + "\n";
+		}
+		return result;
+	}
 	public void sortPaths() //selection sort
 	{
 		//declaring variables
-		int min;
+		int max;
 		Path temp = null;
 		
 		for (int i = 0; i < paths.size() - 1; i++) {
-			min = i;
+			max = i;
 			
-        // find position of minimum
+        // find position of maximum
         for (int j = i+1; j < paths.size(); j++) {
-            if (paths.get(j).getDuration() > paths.get(min).getDuration())
-                min = j;
+            if (paths.get(j).getDuration() > paths.get(max).getDuration())
+                max = j;
         }
         // setting paths
-        temp = paths.get(min);
-        paths.set(min,paths.get(i));
+        temp = paths.get(max);
+        paths.set(max,paths.get(i));
         paths.set(i,temp);
         
         }
@@ -583,6 +593,6 @@ public class InterfacePanel2 extends JPanel
 	}
 	public void clearPaths()
 	{
-	paths.clear();
+		paths.clear();
 	}
 }
