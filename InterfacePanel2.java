@@ -581,4 +581,7 @@ public class InterfacePanel2 extends JPanel
 	{
 		return paths;
 	}
+	public void clearPaths()
+	{
+	paths.clear();
 }
