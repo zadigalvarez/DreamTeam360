@@ -8,7 +8,7 @@ import java.text.*;
 
  public class GeneratePanel extends JPanel
 {
-	private JPanel panel, reportPanel2;
+	private JPanel panel, reportPanel2, updatePanel2;
 	private InterfacePanel2 intPanel;
 	private boolean criticalPath;
 	private JCheckBox critical;
