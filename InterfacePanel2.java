@@ -449,7 +449,6 @@ public class InterfacePanel2 extends JPanel
 			if(Dtemp.size() == 0) //if no dependencies, then this is our starting node
 			{
 				result.add(Ntemp.get(i));
-				
 			}
 		}
 			
@@ -457,11 +456,16 @@ public class InterfacePanel2 extends JPanel
 		int howmany = dependentOn(result.get(0), Ntemp);
 		temp = findNext(result.get(0), Ntemp); //find which node is next after the start
 		System.out.println(howmany + " are dependant on " + result.get(0).getName());
+		System.out.println(temp.getName() + " is after " + result.get(0).getName());
 		if(howmany > 1)
 		{
 			send = (ArrayList<Node>) Ntemp.clone(); //clone the array that was sent
 			send.remove(getIndex(temp, send)); //remove one of the nodes dependent on the current node to send for the next path
+			//Node copy = findNext(result.get(0), send).copy();
 			createPaths(send);
+			//ArrayList<String> copyDep = copy.getDependencies();
+			//copy.getDependencies().remove(findIndexofDep(copyDep, result.get(0)));
+			//Ntemp.remove(getIndex(copy, Ntemp));
 			System.out.print("Back from new path");
 		}
 		
@@ -478,13 +482,18 @@ public class InterfacePanel2 extends JPanel
 			}
 			howmany = dependentOn(result.get(currentIndex), Ntemp);
 			System.out.println(howmany + " are dependant on " + result.get(currentIndex).getName());
+			System.out.println(temp.getName() + " is after " + result.get(currentIndex - 1).getName());
 			counter++;
 			temp = findNext(temp, Ntemp);
 			if(howmany > 1)
 			{
 				send = (ArrayList<Node>) Ntemp.clone(); //clone the array that was sent
 				send.remove(getIndex(temp, send)); //remove one of the nodes dependent on the current node to send for the next path
+				//Node copy = findNext(result.get(currentIndex), send).copy();
 				createPaths(send);
+				//ArrayList<String> copyDep = copy.getDependencies();
+				//copy.getDependencies().remove(findIndexofDep(copyDep, result.get(currentIndex)));
+				//Ntemp.set(getIndex(copy, Ntemp), copy);
 				System.out.println("Back from new path again");
 			}
 			result.add(temp);
@@ -540,6 +549,13 @@ public class InterfacePanel2 extends JPanel
 		}
 		paths.clear();
 		paths.addAll(hashpath);
+		sortPaths();
+		
+			if(paths.get(paths.size()-1).getNodeList().size() == 2 && (paths.get(paths.size() - 1).getNodeList().get(0).getName()).compareTo("A") == 0 && (paths.get(paths.size() - 1).getNodeList().get(1).getName()).compareTo("F") == 0)
+			{
+				paths.remove(paths.size() - 1 );
+			}
+		
 	}
 	
 	public String printList()
@@ -551,38 +567,27 @@ public class InterfacePanel2 extends JPanel
 		}
 		return result;
 	}
-	
-	public String printCritical(ArrayList<Path> list)
-	{
-		String result = "";
-		for(int i = 0; i < list.size(); i++)
-		{
-			result += list.get(i).printList() + "\n";
-		}
-		return result;
-	}
 	public void sortPaths() //selection sort
 	{
 		//declaring variables
-		int max;
+		int min;
 		Path temp = null;
 		
 		for (int i = 0; i < paths.size() - 1; i++) {
-			max = i;
+			min = i;
 			
-        // find position of maximum
+        // find position of minimum
         for (int j = i+1; j < paths.size(); j++) {
-            if (paths.get(j).getDuration() > paths.get(max).getDuration())
-                max = j;
+            if (paths.get(j).getDuration() > paths.get(min).getDuration())
+                min = j;
         }
         // setting paths
-        temp = paths.get(max);
-        paths.set(max,paths.get(i));
+        temp = paths.get(min);
+        paths.set(min,paths.get(i));
         paths.set(i,temp);
         
         }
-    }
-
+    } // end of sort paths
 	public ArrayList<Node> getNodelist()
 	{
 		return nodelist;
@@ -591,8 +596,30 @@ public class InterfacePanel2 extends JPanel
 	{
 		return paths;
 	}
+	public int findIndexofDep(ArrayList<String> dep, Node key)
+	{
+		int result = 0;
+		String name = key.getName();
+		for(int i = 0; i < dep.size(); i++)
+		{
+			if((dep.get(i)).compareTo(name) == 0)
+			{
+				result = i;
+			}
+		}
+		return result;
+	}
 	public void clearPaths()
 	{
 		paths.clear();
+	}
+	public String printCritical(ArrayList<Path> list)
+	{
+		String result = "";
+		for(int i = 0; i < list.size(); i++)
+		{
+			result += list.get(i).printList() + "\n";
+		}
+		return result;
 	}
 }

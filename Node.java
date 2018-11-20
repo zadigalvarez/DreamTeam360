@@ -41,6 +41,12 @@ public class Node
 		return dependencies;
 	}
 	
+	public Node copy()
+	{
+		Node result = new Node(this.name, this.duration, this.dependencies);
+		return result;
+	}
+	
 	public boolean equals(Object o)
 	{
 		boolean result = false;
